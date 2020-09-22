@@ -1,6 +1,8 @@
 package com.kanyideveloper.letsgoshopping
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recyclerView : RecyclerView = findViewById(R.id.recyclerView)
+        val cart : ImageView = findViewById(R.id.shopping_cart)
 
         recyclerView.adapter = ItemsAdapter(applicationContext).apply { addItemList(getMockItems()) }
+
+        cart.setOnClickListener {
+            startActivity(Intent(applicationContext,ItemDetailsActivity::class.java))
+        }
 
     }
 

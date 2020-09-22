@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="16dp"
+    android:backgroundTint="#fff"
+    android:elevation="20dp"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:elevation="6dp"
-    app:cardCornerRadius="9dp">
+    app:cardCornerRadius="15dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,23 +18,40 @@
             android:id="@+id/item_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:layout_marginTop="8dp"
+            android:src="@drawable/laptop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/item_name"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Transcend 2TB"
             android:layout_below="@id/item_image"
-            android:id="@+id/item_name"/>
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:text="Transcend 2TB"
+            app:layout_constraintEnd_toEndOf="@+id/item_image"
+            app:layout_constraintStart_toStartOf="@+id/item_image"
+            app:layout_constraintTop_toBottomOf="@+id/item_image" />
+
 
         <TextView
+            android:id="@+id/item_current_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KSh 8,950"
             android:layout_below="@id/item_name"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="KSh 8,950"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textStyle="bold"
-            android:id="@+id/item_current_price"/>
-    </RelativeLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/item_name"
+            app:layout_constraintStart_toStartOf="@+id/item_name"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

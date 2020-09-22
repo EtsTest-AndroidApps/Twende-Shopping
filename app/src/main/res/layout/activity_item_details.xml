@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemDetailsActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="Twende Shopping"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/shopping_cart"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_shopping_cart_24" />
+
+                <TextView
+                    android:id="@+id/cart_badge"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/badge_background"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/shopping_cart"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/search_bar_shape"
+                    android:drawableStart="@drawable/ic_baseline_search_24"
+                    android:drawablePadding="10dp"
+                    android:hint="Search Product"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/laptop" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card1"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="15dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/itemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amuse- Professional Gourmet Porcelain Dinner Plate"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/itemPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/itemName"
+                        android:layout_marginTop="8dp"
+                        android:text="KSh 15,999"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/itemOldPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/itemPrice"
+                        android:layout_marginTop="8dp"
+                        android:text="KSh 15,999"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <TextView
+                        android:id="@+id/percentCut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/itemPrice"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_toRightOf="@id/itemOldPrice"
+                        android:background="@drawable/cut_background"
+                        android:text="27% Off"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/percentCut"
+                        android:layout_marginTop="10dp"
+                        android:text="ADD TO CART" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

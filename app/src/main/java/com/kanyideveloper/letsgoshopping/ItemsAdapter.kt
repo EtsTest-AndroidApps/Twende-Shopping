@@ -26,7 +26,7 @@ class ItemsAdapter(val context: Context) : RecyclerView.Adapter<ItemsAdapter.Vie
                .load(item.item_image)
                .into(holder.itemImage)
             holder.itemName.text = item.item_name
-            holder.itemPrice.text = item.item_price.toString()
+            holder.itemPrice.text = "Ksh.${item.item_price.toString()}"
         }
 
         override fun getItemCount(): Int {
