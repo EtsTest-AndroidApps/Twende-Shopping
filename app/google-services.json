@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "76554049063",
+    "firebase_url": "https://twende-shopping.firebaseio.com",
+    "project_id": "twende-shopping",
+    "storage_bucket": "twende-shopping.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76554049063:android:e62783346470a64afb2002",
+        "android_client_info": {
+          "package_name": "com.kanyideveloper.letsgoshopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76554049063-krmkrslftu5l3oajllhgq80q07l6o1uj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUMoL4QK6qzL_vGJljennM2ti4OD8yYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76554049063-krmkrslftu5l3oajllhgq80q07l6o1uj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
