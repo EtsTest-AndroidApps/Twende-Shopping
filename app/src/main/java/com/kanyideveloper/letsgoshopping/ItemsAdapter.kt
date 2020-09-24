@@ -16,6 +16,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 class ItemsAdapter(private val context: Context, options: FirebaseRecyclerOptions<Item>) :
         FirebaseRecyclerAdapter<Item, ItemsAdapter.ViewHolder>(options) {
 
+
     private val itemList = mutableListOf<Item>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,18 +26,19 @@ class ItemsAdapter(private val context: Context, options: FirebaseRecyclerOption
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Item) {
         val item = itemList[position]
         Glide.with(context)
-                .load(item.item_image)
-                .into(holder.itemImage)
-        holder.itemName.text = item.item_name
-        holder.itemPrice.text = "Ksh.${item.item_price}"
+                .load(item.itemImage)
+                .into(holder.mImage)
+        holder.mName.text = item.itemName
+        holder.mPrice.text = item.itemPrice.toString()
+
 
         holder.card.setOnClickListener {
 
             val intent = Intent(context, ItemDetailsActivity::class.java)
-            intent.putExtra("ITEM_IMAGE",item.item_image)
-            intent.putExtra("ITEM_NAME",item.item_name)
-            intent.putExtra("ITEM_PRICE",item.item_price.toString())
-            intent.putExtra("ITEM_OLD_PRICE",item.old_price.toString())
+            intent.putExtra("ITEM_IMAGE",item.itemImage)
+            intent.putExtra("ITEM_NAME",item.itemName)
+            intent.putExtra("ITEM_PRICE",item.itemPrice.toString())
+            intent.putExtra("ITEM_OLD_PRICE",item.itemOldPrice.toString())
 
             context.startActivity(intent)
         }
@@ -47,9 +49,9 @@ class ItemsAdapter(private val context: Context, options: FirebaseRecyclerOption
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val itemImage: ImageView = view.findViewById(R.id.item_image)
-        val itemName: TextView = view.findViewById(R.id.item_name)
+        val mImage: ImageView = view.findViewById(R.id.item_image)
+        val mName: TextView = view.findViewById(R.id.item_name)
         val card: CardView = view.findViewById(R.id.shopping_card)
-        val itemPrice: TextView = view.findViewById(R.id.item_current_price)
+        val mPrice: TextView = view.findViewById(R.id.item_current_price)
     }
 }

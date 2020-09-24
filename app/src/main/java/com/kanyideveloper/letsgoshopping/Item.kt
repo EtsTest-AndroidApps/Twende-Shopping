@@ -1,4 +1,10 @@
 package com.kanyideveloper.letsgoshopping
 
-data class Item (val item_image: String, val item_name:String,
-val item_price:Int, val old_price:Int)
+class Item{
+    val itemImage: String? = null
+    val itemName: String? = null
+    val itemOldPrice: Int? = null
+    val itemPrice: Int? = null
+
+    constructor()
+}

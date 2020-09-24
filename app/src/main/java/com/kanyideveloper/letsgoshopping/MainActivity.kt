@@ -1,35 +1,53 @@
 package com.kanyideveloper.letsgoshopping
 
-import android.content.Intent
+
 import android.os.Bundle
-import android.widget.ImageView
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 
 
 class MainActivity : AppCompatActivity() {
+
+
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mFirebaseDatabase: DatabaseReference
+    private lateinit var adapter: ItemsAdapter
+    private val TAG = "MainActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mFirebase = FirebaseDatabase.getInstance().reference
+        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference("items")
+        mRecyclerView = findViewById(R.id.recyclerView)
 
-        // It is a class provide by the FirebaseUI to make a query in the database to fetch appropriate data
+        val query: Query = FirebaseDatabase.getInstance()
+                .reference
+                .child("items")
+
         val options: FirebaseRecyclerOptions<Item> = FirebaseRecyclerOptions.Builder<Item>()
-                .setQuery(mFirebase, Item::class.java)
+                .setQuery(query, Item::class.java)
                 .build()
+        Log.d(TAG, "onCreate: nnn ${options.toString()}")
+        adapter = ItemsAdapter(applicationContext,options)
 
-        val recyclerView : RecyclerView = findViewById(R.id.recyclerView)
-        val cart : ImageView = findViewById(R.id.shopping_cart)
+        mRecyclerView.adapter = adapter
 
-        recyclerView.adapter = ItemsAdapter(applicationContext,options)
-
-        cart.setOnClickListener {
-            startActivity(Intent(applicationContext, CheckoutActivity::class.java))
-        }
     }
+
+    override fun onStart() {
+        super.onStart()
+            adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+            adapter.stopListening()
+    }
+
 }
-
-
