@@ -15,15 +15,15 @@ class ItemDetailsActivity : AppCompatActivity() {
         val image = intent.getStringExtra("ITEM_IMAGE")
         val name = intent.getStringExtra("ITEM_NAME")
         val price = intent.getStringExtra("ITEM_PRICE")
-        val oldPrice = intent.getStringExtra("ITEM_OLD_PRICE" )
+        val oldPrice = intent.getStringExtra("ITEM_OLD_PRICE")
 
         Glide.with(applicationContext)
                 .load(image)
                 .into(itemImage)
 
         itemName.text = name
-        itemPrice.text = "KSh ${price.toString()}"
-        itemOldPrice.text = "KSh ${oldPrice.toString()}"
+        itemPrice.text = "KSh $price"
+        itemOldPrice.text = "KSh $oldPrice"
         itemOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         percentCut.text = "${(calculatePercentageOff(price!!,oldPrice!!))}% Off"
     }

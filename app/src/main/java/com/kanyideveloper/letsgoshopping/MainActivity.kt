@@ -1,53 +1,59 @@
 package com.kanyideveloper.letsgoshopping
 
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
+import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mFirebaseDatabase: DatabaseReference
-    private lateinit var adapter: ItemsAdapter
+    private lateinit var nFirebaseDatabase: FirebaseDatabase
+    var itemList : ArrayList<Item> ? = null
+    private lateinit var reference: DatabaseReference
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference("items")
+        nFirebaseDatabase = FirebaseDatabase.getInstance()
         mRecyclerView = findViewById(R.id.recyclerView)
 
-        val query: Query = FirebaseDatabase.getInstance()
-                .reference
-                .child("items")
+        shopping_cart.setOnClickListener {
+            startActivity(Intent(applicationContext,CheckoutActivity::class.java))
+        }
 
-        val options: FirebaseRecyclerOptions<Item> = FirebaseRecyclerOptions.Builder<Item>()
-                .setQuery(query, Item::class.java)
-                .build()
-        Log.d(TAG, "onCreate: nnn ${options.toString()}")
-        adapter = ItemsAdapter(applicationContext,options)
 
-        mRecyclerView.adapter = adapter
 
+        itemList = arrayListOf<Item>()
+        reference = FirebaseDatabase.getInstance().getReference("items")
+
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+
+                if (p0.exists()) {
+
+                    for (h in p0.children) {
+                        val bal = h.getValue(Item::class.java)
+                        itemList!!.add(bal!!)
+                    }
+
+                    val adapter = ItemsAdapter(applicationContext, itemList!!)
+                    mRecyclerView.adapter = adapter
+                }
+
+            }
+        })
     }
-
-    override fun onStart() {
-        super.onStart()
-            adapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-            adapter.stopListening()
-    }
-
 }
