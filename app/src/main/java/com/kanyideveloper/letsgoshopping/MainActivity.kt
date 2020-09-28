@@ -3,14 +3,13 @@ package com.kanyideveloper.letsgoshopping
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
-
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var nFirebaseDatabase: FirebaseDatabase
@@ -29,9 +28,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext,CheckoutActivity::class.java))
         }
 
-
-
-        itemList = arrayListOf<Item>()
+        itemList = arrayListOf()
         reference = FirebaseDatabase.getInstance().getReference("items")
 
 
@@ -40,19 +37,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-
-
                 if (p0.exists()) {
-
-                    for (h in p0.children) {
-                        val bal = h.getValue(Item::class.java)
-                        itemList!!.add(bal!!)
+                    for (i in p0.children) {
+                        val itm = i.getValue(Item::class.java)
+                        itemList!!.add(itm!!)
+                        Log.d(TAG, "onDataChange: $itemList.toString()")
                     }
 
                     val adapter = ItemsAdapter(applicationContext, itemList!!)
                     mRecyclerView.adapter = adapter
                 }
-
             }
         })
     }

@@ -1,5 +1,6 @@
 package com.kanyideveloper.letsgoshopping
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_item_details.*
 import kotlin.math.roundToInt
 
 class ItemDetailsActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_details)
@@ -25,7 +27,11 @@ class ItemDetailsActivity : AppCompatActivity() {
         itemPrice.text = "KSh $price"
         itemOldPrice.text = "KSh $oldPrice"
         itemOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-        percentCut.text = "${(calculatePercentageOff(price!!,oldPrice!!))}% Off"
+        percentCut.text = "-${(calculatePercentageOff(price!!,oldPrice!!))}% Off"
+
+        add_to_cart.setOnClickListener {
+
+        }
     }
 
     private fun calculatePercentageOff(new: String, old:String) : Int{
