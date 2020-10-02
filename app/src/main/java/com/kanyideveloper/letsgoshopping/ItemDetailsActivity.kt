@@ -1,6 +1,8 @@
 package com.kanyideveloper.letsgoshopping
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +14,7 @@ import kotlin.math.roundToInt
 
 class ItemDetailsActivity : AppCompatActivity() {
 
-    private lateinit var database: DatabaseReference
+    private val sharedPrefFile = "kotlinsharedpreference"
 
 
     @SuppressLint("SetTextI18n")
@@ -20,6 +22,11 @@ class ItemDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_details)
 
+        // Write a message to the database
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.reference
+
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
 
         val image = intent.getStringExtra("ITEM_IMAGE")
         val name = intent.getStringExtra("ITEM_NAME")
@@ -37,7 +44,14 @@ class ItemDetailsActivity : AppCompatActivity() {
         percentCut.text = "-${(calculatePercentageOff(price!!, oldPrice!!))}% Off"
 
         add_to_cart.setOnClickListener {
-            addItemToCart(image.toString(),name.toString(),price.toString())
+            val cartItems = CartItem(image.toString(), name.toString(), price)
+            myRef.child("cart_items").push().setValue(cartItems)
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(),0)+1)
+            editor.apply()
+            editor.commit()
+            val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+            cart_badge.text = sharedIdValue.toString()
         }
     }
 
@@ -49,9 +63,4 @@ class ItemDetailsActivity : AppCompatActivity() {
         return x.roundToInt()
     }
 
-    private fun addItemToCart(img: String, name: String, price: String){
-        val cartItems = CartItem(img, name, price)
-        database = database.ref
-        database.child("cart_items").setValue(cartItems)
-    }
 }
