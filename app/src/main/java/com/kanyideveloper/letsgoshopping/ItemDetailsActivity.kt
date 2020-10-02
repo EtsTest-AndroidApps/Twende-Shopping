@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Paint
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_item_details.*
 import kotlin.math.roundToInt
@@ -15,18 +16,20 @@ import kotlin.math.roundToInt
 class ItemDetailsActivity : AppCompatActivity() {
 
     private val sharedPrefFile = "kotlinsharedpreference"
-
+    private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_details)
 
-        // Write a message to the database
+        //Get instance of the database and the reference
         val database = FirebaseDatabase.getInstance()
         val myRef = database.reference
 
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
+        checkCounter()
 
         val image = intent.getStringExtra("ITEM_IMAGE")
         val name = intent.getStringExtra("ITEM_NAME")
@@ -46,12 +49,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         add_to_cart.setOnClickListener {
             val cartItems = CartItem(image.toString(), name.toString(), price)
             myRef.child("cart_items").push().setValue(cartItems)
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(),0)+1)
-            editor.apply()
-            editor.commit()
-            val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
-            cart_badge.text = sharedIdValue.toString()
+            incrementCounter()
         }
     }
 
@@ -63,4 +61,24 @@ class ItemDetailsActivity : AppCompatActivity() {
         return x.roundToInt()
     }
 
+    private fun incrementCounter(){
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(),0)+1)
+        editor.apply()
+        editor.commit()
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        cart_badge.text = sharedIdValue.toString()
+        cart_badge.visibility = View.VISIBLE
+    }
+
+    private fun checkCounter(){
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        if(sharedIdValue == 0){
+            cart_badge.visibility = View.INVISIBLE
+        }
+        else if (sharedIdValue >= 1){
+            cart_badge.text = sharedIdValue.toString()
+            cart_badge.visibility = View.VISIBLE
+        }
+    }
 }

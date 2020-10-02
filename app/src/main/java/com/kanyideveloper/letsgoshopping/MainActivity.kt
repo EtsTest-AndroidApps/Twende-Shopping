@@ -1,9 +1,12 @@
 package com.kanyideveloper.letsgoshopping
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -14,8 +17,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var nFirebaseDatabase: FirebaseDatabase
     var itemList : ArrayList<Item> ? = null
+    private var sharedIdValue : Int = 0
     private lateinit var reference: DatabaseReference
     private val TAG = "MainActivity"
+
+    private val sharedPrefFile = "kotlinsharedpreference"
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         nFirebaseDatabase = FirebaseDatabase.getInstance()
         mRecyclerView = findViewById(R.id.recyclerView)
+
+        sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
+        sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+
+        cart_badge.text = sharedIdValue.toString()
+        cart_badge.visibility = View.VISIBLE
 
         shopping_cart.setOnClickListener {
             startActivity(Intent(applicationContext,CheckoutActivity::class.java))
@@ -49,5 +64,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: stoped")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: restarted")
+        cart_badge.text = sharedIdValue.toString()
+        cart_badge.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: resume")
     }
 }

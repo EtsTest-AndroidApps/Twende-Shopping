@@ -51,8 +51,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/badge_background"
                     android:gravity="center"
-                    android:visibility="visible"
-                    android:text="10"
+                    android:visibility="invisible"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
 
