@@ -25,7 +25,7 @@ class ItemsAdapter(private val context: Context, private val itemList: ArrayList
                 .load(item.itemImage)
                 .into(holder.mImage)
 
-        holder.mName.text = "KSh ${item.itemName}"
+        holder.mName.text = item.itemName
         holder.mPrice.text = "KSh ${item.itemPrice}"
 
         holder.card.setOnClickListener {

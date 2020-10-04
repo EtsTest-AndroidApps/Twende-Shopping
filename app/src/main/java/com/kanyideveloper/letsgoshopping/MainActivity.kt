@@ -10,42 +10,43 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_item_details.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.cart_badge
+import kotlinx.android.synthetic.main.activity_main.shopping_cart
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var nFirebaseDatabase: FirebaseDatabase
-    var itemList : ArrayList<Item> ? = null
-    private var sharedIdValue : Int = 0
+    private lateinit var mFirebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
-    private val TAG = "MainActivity"
+
+    var itemList : ArrayList<Item> ? = null
 
     private val sharedPrefFile = "kotlinsharedpreference"
     private lateinit var sharedPreferences: SharedPreferences
+    private var sharedIdValue : Int = 0
+
+    private val TAG = "MainActivity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nFirebaseDatabase = FirebaseDatabase.getInstance()
+        mFirebaseDatabase = FirebaseDatabase.getInstance()
         mRecyclerView = findViewById(R.id.recyclerView)
 
         sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
-
         sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
-
-        cart_badge.text = sharedIdValue.toString()
-        cart_badge.visibility = View.VISIBLE
+        checkCounter()
 
         shopping_cart.setOnClickListener {
             startActivity(Intent(applicationContext,CheckoutActivity::class.java))
         }
 
         itemList = arrayListOf()
-        reference = FirebaseDatabase.getInstance().getReference("items")
-
+        reference = mFirebaseDatabase.getReference("items")
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -56,7 +57,6 @@ class MainActivity : AppCompatActivity() {
                     for (i in p0.children) {
                         val itm = i.getValue(Item::class.java)
                         itemList!!.add(itm!!)
-                        Log.d(TAG, "onDataChange: $itemList.toString()")
                     }
 
                     val adapter = ItemsAdapter(applicationContext, itemList!!)
@@ -66,20 +66,27 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: stoped")
+    private fun checkCounter(){
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        if(sharedIdValue == 0){
+            cart_badge.visibility = View.INVISIBLE
+        }
+        else if (sharedIdValue >= 1){
+            cart_badge.text = sharedIdValue.toString()
+            cart_badge.visibility = View.VISIBLE
+        }
     }
+
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAG, "onRestart: restarted")
-        cart_badge.text = sharedIdValue.toString()
-        cart_badge.visibility = View.VISIBLE
+        Log.d(TAG, "onRestart: Restarted")
+
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: resume")
+        Log.d(TAG, "onResume: Resumed")
+        checkCounter()
     }
 }

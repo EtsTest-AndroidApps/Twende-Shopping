@@ -2,6 +2,7 @@ package com.kanyideveloper.letsgoshopping
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Paint
 import android.opengl.Visibility
@@ -50,6 +51,11 @@ class ItemDetailsActivity : AppCompatActivity() {
             val cartItems = CartItem(image.toString(), name.toString(), price)
             myRef.child("cart_items").push().setValue(cartItems)
             incrementCounter()
+            finish()
+        }
+
+        shopping_cart.setOnClickListener {
+            startActivity(Intent(this, CheckoutActivity::class.java))
         }
     }
 
