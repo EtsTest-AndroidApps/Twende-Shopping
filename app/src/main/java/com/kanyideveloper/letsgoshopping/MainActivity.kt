@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
                     for (i in p0.children) {
                         val itm = i.getValue(Item::class.java)
                         itemList!!.add(itm!!)
+                        shimmerFrameLayout.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
                     }
 
                     val adapter = ItemsAdapter(applicationContext, itemList!!)
@@ -77,6 +79,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        shimmerFrameLayout.stopShimmerAnimation()
+    }
+
 
     override fun onRestart() {
         super.onRestart()
@@ -87,6 +94,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: Resumed")
+        shimmerFrameLayout.startShimmerAnimation()
         checkCounter()
     }
 }

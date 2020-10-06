@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_columnWeight="1"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:backgroundTint="#fff"
     android:elevation="20dp"
     android:id="@+id/shopping_card"
@@ -13,6 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginEnd="10dp"
         android:layout_height="match_parent">
 
         <ImageView
@@ -20,7 +21,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_launcher_background"
+            android:background="@color/colorGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="1"
+            android:background="@color/colorGrey"
             android:text="Transcend 2TB"
             app:layout_constraintEnd_toEndOf="@+id/item_image"
             app:layout_constraintStart_toStartOf="@+id/item_image"
@@ -44,11 +46,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_name"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:text="KSh 8,950"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textStyle="bold"
+            android:background="@color/colorGrey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/item_name"
             app:layout_constraintStart_toStartOf="@+id/item_name"
