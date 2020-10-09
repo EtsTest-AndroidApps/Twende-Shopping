@@ -5,29 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_item_details.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.cart_badge
-import kotlinx.android.synthetic.main.activity_main.shopping_cart
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mFirebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
+    private lateinit var adapter: ItemsAdapter
 
     var itemList : ArrayList<Item> ? = null
 
     private val sharedPrefFile = "kotlinsharedpreference"
     private lateinit var sharedPreferences: SharedPreferences
     private var sharedIdValue : Int = 0
-
-    private val TAG = "MainActivity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +35,22 @@ class MainActivity : AppCompatActivity() {
         mFirebaseDatabase = FirebaseDatabase.getInstance()
         mRecyclerView = findViewById(R.id.recyclerView)
 
+
         sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
-        sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(), 0)
         checkCounter()
 
         shopping_cart.setOnClickListener {
-            startActivity(Intent(applicationContext,CheckoutActivity::class.java))
+            startActivity(Intent(applicationContext, CheckoutActivity::class.java))
         }
+
+        search_item_bar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                filter(editable.toString())
+            }
+        })
 
         itemList = arrayListOf()
         reference = mFirebaseDatabase.getReference("items")
@@ -69,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkCounter(){
-        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(), 0)
         if(sharedIdValue == 0){
             cart_badge.visibility = View.INVISIBLE
         }
@@ -79,21 +86,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun filter(e: String) {
+        val filteredList = ArrayList<Item>()
+        for (item in itemList!!) {
+            if (item.itemName?.toLowerCase()?.contains(e.toLowerCase())!!) {
+                filteredList.add(item)
+            }
+        }
+        adapter= ItemsAdapter(applicationContext, filteredList!!)
+        mRecyclerView.adapter= adapter
+    }
+
     override fun onPause() {
         super.onPause()
         shimmerFrameLayout.stopShimmerAnimation()
     }
 
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart: Restarted")
-
-    }
-
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: Resumed")
         shimmerFrameLayout.startShimmerAnimation()
         checkCounter()
     }

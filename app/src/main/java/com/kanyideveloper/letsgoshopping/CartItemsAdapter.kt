@@ -32,7 +32,7 @@ class CartItemsAdapter(private val context: Context, private val itmList : Array
                 .into(holder.itmImage)
         holder.itmName.text = itm.itemName
 
-        holder.itmPrice.text = "KSh. ${itm.itemPrice.toString()}"
+        holder.itmPrice.text = "KSh. ${itm.itemPrice}"
     }
 
     override fun getItemCount(): Int {

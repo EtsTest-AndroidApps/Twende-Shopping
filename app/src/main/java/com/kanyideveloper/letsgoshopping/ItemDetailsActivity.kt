@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Paint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +35,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         val name = intent.getStringExtra("ITEM_NAME")
         val price = intent.getStringExtra("ITEM_PRICE")
         val oldPrice = intent.getStringExtra("ITEM_OLD_PRICE")
+        val vat = intent.getStringExtra("ITEM_VAT")
 
         Glide.with(applicationContext)
                 .load(image)
@@ -48,7 +48,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         percentCut.text = "-${(calculatePercentageOff(price!!, oldPrice!!))}% Off"
 
         add_to_cart.setOnClickListener {
-            val cartItems = CartItem(image.toString(), name.toString(), price)
+            val cartItems = CartItem(image.toString(), name.toString(), price, vat.toString())
             myRef.child("cart_items").push().setValue(cartItems)
             incrementCounter()
             finish()

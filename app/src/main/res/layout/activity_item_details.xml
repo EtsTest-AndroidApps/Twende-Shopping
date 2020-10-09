@@ -54,18 +54,6 @@
                     android:visibility="invisible"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/shopping_cart"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/search_bar_shape"
-                    android:drawableStart="@drawable/ic_baseline_search_24"
-                    android:drawablePadding="10dp"
-                    android:hint="Search Product"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white" />
             </RelativeLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -91,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:id="@+id/itemImage"
+                    android:padding="15dp"
                     android:src="@drawable/ic_launcher_background" />
             </androidx.cardview.widget.CardView>
 

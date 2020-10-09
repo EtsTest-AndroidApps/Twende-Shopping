@@ -12,7 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class ItemsAdapter(private val context: Context, private val itemList: ArrayList<Item>) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>(){
+class ItemsAdapter(private val context: Context, private var itemList: ArrayList<Item>) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shopping_item_row, parent, false))
@@ -32,8 +32,9 @@ class ItemsAdapter(private val context: Context, private val itemList: ArrayList
             val intent = Intent(context, ItemDetailsActivity::class.java)
             intent.putExtra("ITEM_IMAGE",item.itemImage)
             intent.putExtra("ITEM_NAME",item.itemName)
-            intent.putExtra("ITEM_PRICE",item.itemPrice.toString())
-            intent.putExtra("ITEM_OLD_PRICE",item.itemOldPrice.toString())
+            intent.putExtra("ITEM_PRICE",item.itemPrice)
+            intent.putExtra("ITEM_OLD_PRICE",item.itemOldPrice)
+            intent.putExtra("ITEM_VAT",item.vat)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
             context.startActivity(intent)
@@ -50,6 +51,12 @@ class ItemsAdapter(private val context: Context, private val itemList: ArrayList
         val card: CardView = view.findViewById(R.id.shopping_card)
         val mPrice: TextView = view.findViewById(R.id.item_current_price)
     }
+
+    fun filterList(filteredList: java.util.ArrayList<Item>) {
+        itemList = filteredList
+        notifyDataSetChanged()
+    }
 }
+
 
 
