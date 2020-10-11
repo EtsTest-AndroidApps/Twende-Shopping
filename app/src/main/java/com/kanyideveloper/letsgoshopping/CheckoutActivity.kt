@@ -1,7 +1,8 @@
 package com.kanyideveloper.letsgoshopping
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_checkout.*
@@ -37,7 +38,7 @@ class CheckoutActivity : AppCompatActivity() {
                     for (itm: CartItem in cartList!!) {
                         sum += itm.itemPrice.toDouble()
                         vat += itm.vat.toDouble()
-                        total = sum+vat
+                        total = sum + vat
                     }
                     subtotal_value.text = sum.toString()
                     vat_value.text = vat.toString()
@@ -52,6 +53,17 @@ class CheckoutActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
             }
+        })
+        val adapter = CartItemsAdapter(applicationContext, cartList!!)
+        adapter.setOnItemClickListener(object : CartItemsAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                //
+            }
+
+            override fun onDeleteClick(position: Int) {
+                Toast.makeText(applicationContext,"Delete",Toast.LENGTH_SHORT).show()
+            }
+
         })
     }
 }

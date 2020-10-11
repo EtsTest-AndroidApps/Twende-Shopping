@@ -10,17 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CartItemsAdapter(private val context: Context, private val itmList : ArrayList<CartItem>) : RecyclerView.Adapter<CartItemsAdapter.ViewHolder>(){
 
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        val itmImage: ImageView = view.findViewById(R.id.cart_item_image)
-        val itmName: TextView = view.findViewById(R.id.cart_item_name)
-        val itmPrice: TextView = view.findViewById(R.id.cart_item_price)
-    }
+class CartItemsAdapter(private val context: Context, private val itmList: ArrayList<CartItem>) : RecyclerView.Adapter<CartItemsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.cart_items_row,parent,false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.cart_items_row, parent, false))
     }
 
     @SuppressLint("SetTextI18n")
@@ -33,9 +27,20 @@ class CartItemsAdapter(private val context: Context, private val itmList : Array
         holder.itmName.text = itm.itemName
 
         holder.itmPrice.text = "KSh. ${itm.itemPrice}"
+
+        holder.deleteItem.setOnClickListener {
+        }
     }
 
     override fun getItemCount(): Int {
         return itmList.size
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        val itmImage: ImageView = view.findViewById(R.id.cart_item_image)
+        val itmName: TextView = view.findViewById(R.id.cart_item_name)
+        val itmPrice: TextView = view.findViewById(R.id.cart_item_price)
+        val deleteItem: ImageView = view.findViewById(R.id.delete_cart_item)
+
     }
 }
