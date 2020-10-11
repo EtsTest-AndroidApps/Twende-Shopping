@@ -39,6 +39,13 @@
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:id="@+id/textView" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -61,5 +68,12 @@
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:id="@+id/textView" />
+        <Constraint
+            android:layout_height="100dp"
+            android:layout_marginTop="450dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="100dp"
+            android:id="@+id/imageView2" />
     </ConstraintSet>
 </MotionScene>
