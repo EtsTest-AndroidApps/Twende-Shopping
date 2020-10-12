@@ -48,7 +48,7 @@
             android:layout_below="@id/cart_item_image"
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
-            android:id="@+id/add_button"
+            android:id="@+id/add_cart_item"
             android:layout_marginRight="6dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:id="@+id/items_num"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            android:layout_toLeftOf="@id/add_button"
+            android:layout_toLeftOf="@id/add_cart_item"
             android:layout_below="@id/cart_item_image"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"/>
@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_remove_circle_24"
             android:layout_below="@id/cart_item_image"
+            android:id="@+id/minus_cart_item"
             android:layout_toLeftOf="@id/items_num"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
