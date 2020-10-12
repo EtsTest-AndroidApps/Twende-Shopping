@@ -2,7 +2,6 @@ package com.kanyideveloper.letsgoshopping
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.media.ImageReader
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class CartItemsAdapter(private val context : Context, private val itmList : ArrayList<CartItem>, private val itemClickListener : ItemClickListener) : RecyclerView.Adapter<CartItemsAdapter.ViewHolder>(){
+class CartItemsAdapter(private val context : Context, private val itmList : ArrayList<CartItem>, private val itemClickListener : ItemClickListener)
+    : RecyclerView.Adapter<CartItemsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.cart_items_row, parent, false))
@@ -28,6 +28,8 @@ class CartItemsAdapter(private val context : Context, private val itmList : Arra
         holder.itmName.text = itm.itemName
 
         holder.itmPrice.text = "KSh. ${itm.itemPrice}"
+
+        holder.itemNumber.text = itm.counter.toString()
 
         holder.deleteItem.setOnClickListener {
             itemClickListener.deleteFromCart(itmList[position],position)
@@ -54,5 +56,6 @@ class CartItemsAdapter(private val context : Context, private val itmList : Arra
         val deleteItem: ImageView = view.findViewById(R.id.delete_cart_item)
         val addItem: ImageView = view.findViewById(R.id.add_cart_item)
         val minusItem: ImageView = view.findViewById(R.id.minus_cart_item)
+        val itemNumber: TextView = view.findViewById(R.id.items_num)
     }
 }

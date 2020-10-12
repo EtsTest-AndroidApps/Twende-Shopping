@@ -48,7 +48,7 @@ class ItemDetailsActivity : AppCompatActivity() {
         percentCut.text = "-${(calculatePercentageOff(price!!, oldPrice!!))}% Off"
 
         add_to_cart.setOnClickListener {
-            val cartItems = CartItem(image.toString(), name.toString(), price, vat.toString())
+            val cartItems = CartItem(image.toString(), name.toString(), price, vat.toString(),1)
             myRef.child("cart_items").push().setValue(cartItems)
             incrementCounter()
             finish()

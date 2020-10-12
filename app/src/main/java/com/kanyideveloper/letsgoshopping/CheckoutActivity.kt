@@ -1,5 +1,7 @@
 package com.kanyideveloper.letsgoshopping
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +16,22 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mReference: DatabaseReference
     private var cartList : ArrayList<CartItem>? = null
+    private lateinit var adapter : CartItemsAdapter
+
+    private val sharedPrefFile = "kotlinsharedpreference"
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
+        sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+
         mDatabase = FirebaseDatabase.getInstance()
         mRecyclerView = findViewById(R.id.cart_recycler)
 
         cartList = arrayListOf()
+
         mReference = mDatabase.getReference("cart_items")
 
         mReference.addValueEventListener(object : ValueEventListener {
@@ -48,7 +57,9 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
 
 
                     //Initialise my adapter
-                    mRecyclerView.adapter = CartItemsAdapter(applicationContext, cartList!!,this@CheckoutActivity)
+                    adapter = CartItemsAdapter(applicationContext, cartList!!,this@CheckoutActivity)
+
+                    mRecyclerView.adapter = adapter
                 }
             }
 
@@ -58,14 +69,25 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun increaseToCart(item : CartItem, position : Int) {
-        Toast.makeText(applicationContext,"Add Button",Toast.LENGTH_SHORT).show()
+        item.counter += 1
+        adapter.notifyItemChanged(position)
     }
 
     override fun decreaseFromCart(item : CartItem, position : Int) {
-        Toast.makeText(applicationContext,"Minus Button",Toast.LENGTH_SHORT).show()
+        item.counter -= 1
+        adapter.notifyItemChanged(position)
     }
 
     override fun deleteFromCart(item : CartItem, position : Int) {
         Toast.makeText(applicationContext,"Delete Button",Toast.LENGTH_SHORT).show()
+    }
+
+    private fun incrementCounter(){
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(),0)+1)
+        editor.apply()
+        editor.commit()
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        items_num.text = sharedIdValue.toString()
     }
 }
