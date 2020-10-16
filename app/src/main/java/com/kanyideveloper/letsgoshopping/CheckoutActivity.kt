@@ -81,7 +81,7 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
                 .child("cart_items")
                 .orderByChild("itemName")
                 .equalTo(item.itemName)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot : DataSnapshot) {
                             if (snapshot.hasChildren()) {
                                 val firstChild = snapshot.children.iterator().next()
