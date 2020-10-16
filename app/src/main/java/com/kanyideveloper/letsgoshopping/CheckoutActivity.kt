@@ -10,6 +10,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_checkout.*
 import kotlinx.android.synthetic.main.cart_items_row.*
 
+
 class CheckoutActivity : AppCompatActivity(), ItemClickListener {
 
     private lateinit var mDatabase: FirebaseDatabase
@@ -55,10 +56,8 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
 
                     total_value.text = total.toString()
 
-
                     //Initialise my adapter
-                    adapter = CartItemsAdapter(applicationContext, cartList!!,this@CheckoutActivity)
-
+                    adapter = CartItemsAdapter(applicationContext, cartList!!, this@CheckoutActivity)
                     mRecyclerView.adapter = adapter
                 }
             }
@@ -69,7 +68,6 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun increaseToCart(item : CartItem, position : Int) {
-        item.counter += 1
         adapter.notifyItemChanged(position)
     }
 
@@ -79,15 +77,31 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun deleteFromCart(item : CartItem, position : Int) {
-        Toast.makeText(applicationContext,"Delete Button",Toast.LENGTH_SHORT).show()
+        mDatabase.reference
+                .child("cart_items")
+                .orderByChild("itemName")
+                .equalTo(item.itemName)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot : DataSnapshot) {
+                            if (snapshot.hasChildren()) {
+                                val firstChild = snapshot.children.iterator().next()
+                                firstChild.ref.removeValue()
+                            }
+                        Toast.makeText(applicationContext, "Delete Button", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onCancelled(error : DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
     }
 
     private fun incrementCounter(){
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(),0)+1)
+        editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(), 0) + 1)
         editor.apply()
         editor.commit()
-        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(),0)
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(), 0)
         items_num.text = sharedIdValue.toString()
     }
 }

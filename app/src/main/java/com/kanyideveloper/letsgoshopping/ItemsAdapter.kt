@@ -12,7 +12,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class ItemsAdapter(private val context: Context, private var itemList: ArrayList<Item>) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>(){
+class ItemsAdapter(private val context: Context, private var itemList: ArrayList<Item>) :
+        RecyclerView.Adapter<ItemsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shopping_item_row, parent, false))
