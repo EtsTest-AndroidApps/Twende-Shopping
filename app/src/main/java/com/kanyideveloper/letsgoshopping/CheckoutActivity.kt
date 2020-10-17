@@ -3,8 +3,10 @@ package com.kanyideveloper.letsgoshopping
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_checkout.*
@@ -29,7 +31,6 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
         sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mRecyclerView = findViewById(R.id.cart_recycler)
 
         cartList = arrayListOf()
 
@@ -57,8 +58,10 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
                     total_value.text = total.toString()
 
                     //Initialise my adapter
-                    adapter = CartItemsAdapter(applicationContext, cartList!!, this@CheckoutActivity)
-                    mRecyclerView.adapter = adapter
+                    //adapter = CartItemsAdapter(applicationContext, cartList!!, this@CheckoutActivity)
+                    //mRecyclerView.adapter = adapter
+
+                    initialiseRecycler()
                 }
             }
 
@@ -77,23 +80,20 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun deleteFromCart(item : CartItem, position : Int) {
-        mDatabase.reference
-                .child("cart_items")
-                .orderByChild("itemName")
-                .equalTo(item.itemName)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot : DataSnapshot) {
-                            if (snapshot.hasChildren()) {
-                                val firstChild = snapshot.children.iterator().next()
-                                firstChild.ref.removeValue()
-                            }
-                        Toast.makeText(applicationContext, "Delete Button", Toast.LENGTH_SHORT).show()
-                    }
 
-                    override fun onCancelled(error : DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-                })
+        val mQuery : Query = mReference.orderByChild("itemName").equalTo(item.itemName)
+        mQuery.addListenerForSingleValueEvent( object : ValueEventListener{
+            override fun onDataChange(snapshot : DataSnapshot) {
+                for(snapshot in snapshot.children){
+                    snapshot.ref.removeValue()
+                    removeItem(position)
+                    adapter.clear()
+                    decrementCounter()
+                }
+            }
+            override fun onCancelled(error : DatabaseError) {
+            }
+        })
     }
 
     private fun incrementCounter(){
@@ -103,5 +103,27 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
         editor.commit()
         val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(), 0)
         items_num.text = sharedIdValue.toString()
+    }
+
+    private fun decrementCounter(){
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putInt(Utils.counter.toString(), sharedPreferences.getInt(Utils.counter.toString(), 0) - 1)
+        editor.apply()
+        editor.commit()
+        val sharedIdValue = sharedPreferences.getInt(Utils.counter.toString(), 0)
+        items_num.text = sharedIdValue.toString()
+    }
+
+    private fun removeItem(position : Int){
+        cartList?.removeAt(position)
+        adapter.notifyItemRemoved(position)
+    }
+
+    private fun initialiseRecycler(){
+        mRecyclerView = findViewById(R.id.cart_recycler)
+        mRecyclerView.hasFixedSize()
+        mRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        adapter = CartItemsAdapter(applicationContext, cartList!!, this@CheckoutActivity)
+        mRecyclerView.adapter = adapter
     }
 }

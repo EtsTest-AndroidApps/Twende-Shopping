@@ -32,21 +32,27 @@ class CartItemsAdapter(private val context : Context, private val itmList : Arra
         holder.itemNumber.text = itm.counter.toString()
 
         holder.deleteItem.setOnClickListener {
-            itemClickListener.deleteFromCart(itmList[position],position)
+            itemClickListener.deleteFromCart(itmList[position], position)
         }
 
         holder.addItem.setOnClickListener {
-            itemClickListener.increaseToCart(itmList[position],position)
+            itemClickListener.increaseToCart(itmList[position], position)
         }
 
         holder.minusItem.setOnClickListener {
-            itemClickListener.decreaseFromCart(itmList[position],position)
+            itemClickListener.decreaseFromCart(itmList[position], position)
         }
 
     }
 
     override fun getItemCount(): Int {
         return itmList.size
+    }
+
+    fun clear() {
+        val size : Int = itmList.size
+        itmList.clear()
+        notifyItemRangeRemoved(0, size)
     }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
