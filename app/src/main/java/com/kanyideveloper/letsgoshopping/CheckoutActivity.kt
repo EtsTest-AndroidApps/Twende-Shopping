@@ -3,8 +3,6 @@ package com.kanyideveloper.letsgoshopping
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,26 +69,49 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun increaseToCart(item : CartItem, position : Int) {
-        adapter.notifyItemChanged(position)
-    }
+        item.counter += 1
+        val mQuery : Query = mReference.orderByChild("itemName").equalTo(item.itemName)
+        mQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot : DataSnapshot) {
+                for (snapshot in snapshot.children) {
+                    snapshot.child("counter").ref.setValue(item.counter)
+                    adapter.clear()
+                }
+            }
 
+            override fun onCancelled(error : DatabaseError) {
+            }
+        })
+    }
     override fun decreaseFromCart(item : CartItem, position : Int) {
         item.counter -= 1
-        adapter.notifyItemChanged(position)
+        val mQuery : Query = mReference.orderByChild("itemName").equalTo(item.itemName)
+        mQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot : DataSnapshot) {
+                for (snapshot in snapshot.children) {
+                    snapshot.child("counter").ref.setValue(item.counter)
+                    adapter.clear()
+                }
+            }
+
+            override fun onCancelled(error : DatabaseError) {
+            }
+        })
     }
 
     override fun deleteFromCart(item : CartItem, position : Int) {
 
         val mQuery : Query = mReference.orderByChild("itemName").equalTo(item.itemName)
-        mQuery.addListenerForSingleValueEvent( object : ValueEventListener{
+        mQuery.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot : DataSnapshot) {
-                for(snapshot in snapshot.children){
+                for (snapshot in snapshot.children) {
                     snapshot.ref.removeValue()
                     removeItem(position)
                     adapter.clear()
                     decrementCounter()
                 }
             }
+
             override fun onCancelled(error : DatabaseError) {
             }
         })
