@@ -76,6 +76,9 @@ class CheckoutActivity : AppCompatActivity(), ItemClickListener {
         })
     }
     override fun decreaseFromCart(item : CartItem, position : Int) {
+        if (item.counter == 1){
+            minus_cart_item.isClickable = false
+        }
         item.counter -= 1
         val mQuery : Query = mReference.orderByChild("itemName").equalTo(item.itemName)
         mQuery.addListenerForSingleValueEvent(object : ValueEventListener {

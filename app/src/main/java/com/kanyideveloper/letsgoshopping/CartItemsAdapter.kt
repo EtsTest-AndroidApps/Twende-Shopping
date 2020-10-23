@@ -40,6 +40,7 @@ class CartItemsAdapter(private val context : Context, private val itmList : Arra
         }
 
         holder.minusItem.setOnClickListener {
+
             itemClickListener.decreaseFromCart(itmList[position], position)
         }
 
