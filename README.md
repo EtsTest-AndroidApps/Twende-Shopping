@@ -17,9 +17,20 @@ Libraries used in the whole application are:
 - [Facebook Shimmer Effect](https://github.com/facebook/shimmer-android) - A library that provides an easy way to add a shimmer effect to any view in your Android app.
 - [Material Design](https://material.io/develop/android/docs/getting-started/) - build awesome beautiful UIs.🔥🔥
 - [Firebase](https://firebase.google.com/) - Backend As A Service for faster mobile development.
+- [MotionLayout](https://developer.android.com/training/constraint-layout) -  a subclass of ConstraintLayout that includes all of its outstanding features, and it's fully declarative with the capability to implement complicated transitions in the XML.
   
 ## Contributors
 
 Feel free to contribute in any way to the project from typos in docs to code review are all welcome.
 
 ## Demo
+
+<p float="left">
+<img src="screenshots/IMG-20200908-WA0023.jpg" width=250/>
+<img src="screenshots/IMG-20200908-WA0029.jpg" width=250/>
+  <img src="screenshots/IMG-20200908-WA0028.jpg" width=250/>
+  <img src="screenshots/IMG-20200908-WA0026.jpg" width=250/>
+  <img src="screenshots/IMG-20200908-WA0027.jpg" width=250/>
+  <img src="screenshots/IMG-20200908-WA0025.jpg" width=250/>
+  <img src="screenshots/IMG-20200908-WA0022.jpg" width=250/>
+  </p>
