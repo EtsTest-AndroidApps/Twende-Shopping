@@ -25,6 +25,8 @@ Feel free to contribute in any way to the project from typos in docs to code rev
 
 ## Demo
 
+<img src="https://user-images.githubusercontent.com/50293753/84122030-7d988d80-aa40-11ea-8e94-c22ca7d255c9.gif" height="600" width="300"/>
+
 <p float="left">
   <img src="screenshots/Screenshot_20201024-182540.png" width=250/>
   <img src="screenshots/Screenshot_20201018-190502.png" width=250/>
