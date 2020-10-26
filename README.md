@@ -30,7 +30,7 @@ Feel free to contribute in any way to the project from typos in docs to code rev
   <img src="screenshots/Screenshot_20201018-190502.png" width=250/>
   <img src="screenshots/Screenshot_20201024-182600.png" width=250/>
   <img src="screenshots/Screenshot_20201024-182915.png" width=250/>
-  <img src="screenshots/Screenshot_20201024-182624.pngScreenshot_20201024-182624" width=250/>
+  <img src="screenshots/Screenshot_20201024-182624.png" width=250/>
   <img src="screenshots/IMG-20200908-WA0025.jpg" width=250/>
   <img src="screenshots/IMG-20200908-WA0022.jpg" width=250/>
   </p>
