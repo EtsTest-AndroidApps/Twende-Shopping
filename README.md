@@ -1,7 +1,7 @@
 # Twende-Shopping
 
 
-An Android app implementing basic online shopping application features 
+A simple Android app implementing basic online shopping application features 
 
 ## Prerequisite
 
